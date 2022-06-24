@@ -79,18 +79,18 @@ function errorReceiving(error) {
   }
 }
 //function contact() {
-//const sendMessages = axios.post(
-//"https://mock-api.driven.com.br/api/v6/uol/messages",
-//{
-// from: "nome do usuário",
-//  to: "nome do destinatário (Todos se não for um específico)",
+// const sendMessages = axios.post(
+//  "https://mock-api.driven.com.br/api/v6/uol/messages",
+//  {
+//    from: "nome do usuário",
+//    to: "nome do destinatário (Todos se não for um específico)",
 //  text: "mensagem digitada",
-//  type: "message",
+// type: "message",
 // }
 // );
-// promise.then(sentMessage);
+//  promise.then(sentMessage);
 // promisse.catch(errorSending);
 //}
 //function sentMessage() {
-// setInterval(receiveMessage, 3000);
+//setInterval(receiveMessage, 3000);
 //}
