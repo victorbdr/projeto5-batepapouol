@@ -1,22 +1,22 @@
 let userName = prompt("qual seu nome?");
-let mensagens;
-
+let mensagens = [];
+//Entrar no chat
 function enterChat() {
   const promise = axios.post(
     "https://mock-api.driven.com.br/api/v6/uol/participants ",
     { name: userName }
   );
-  promise.then(Correct);
-  promise.catch(Incorrect);
+  promise.then(enter);
+  promise.catch(unable);
 }
 enterChat();
-function Correct(response) {
+function enter(response) {
   console.log(response.data);
 }
-function Incorrect(error) {
+function unable(error) {
   console.log("status code" + error.response.status);
 }
-
+//Checar status
 function stillThere() {
   const status = axios.post(
     "https://mock-api.driven.com.br/api/v6/uol/status",
@@ -26,13 +26,16 @@ function stillThere() {
   );
   status.catch(taOff);
 }
+// atualiza a cada 5s
 setInterval(stillThere, 5000);
-function taOff(error) {
-  if (error.response.status === 400) {
-    console.log("ta errado isso ai");
-  }
-}
 
+function taOff(error) {
+  alert("Nome ja esta em uso, ecolha outro");
+  console.log(error.response.status);
+  console.log(error.response.data);
+  userName = prompt("qual seu nome?");
+}
+// puxar mensagens da api
 function whosTalking() {
   const messages = axios.get(
     "https://mock-api.driven.com.br/api/v6/uol/messages",
@@ -45,7 +48,7 @@ function whosTalking() {
         time: "08:01:17",
       },
       {
-        from: "João",
+        from: userName,
         to: "Todos",
         text: "Bom dia",
         type: "message",
@@ -56,13 +59,13 @@ function whosTalking() {
   promise.then(receiveMessage);
   promisse.catch(errorReceiving);
 }
+// se tiver OK mandar mensagens para o chat
 function receiveMessage(receiver) {
-  let allMessages = receiver;
   let organizeMessages = document.querySelector(".chatuol");
   organizeMessages.innerHTML = "";
-  for (let i = 0; i < mensagens.length; i++) {
-    if (allMessages.type === "message") {
-      organizeMessages.innerHTML += `<div class = "mensagens"> 
+  for (let i = 0; i < receiver.length; i++) {
+    if (receiver.type === "status") {
+      organizeMessages.innerHTML += `<div class = "status"> <p>${userName} esta online</p>
       </div>
       `;
     }
