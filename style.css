@@ -35,24 +35,38 @@ footer {
 .sendmessage {
   justify-content: space-between;
   display: flex;
-  padding: 20px 20px;
+  padding: 10px 20px;
 }
 .status {
-  height: 40px;
+  height: 70px;
   background: #dcdcdc;
   border-radius: 2px;
 }
 .privateMessage {
-  height: 40px;
+  height: 70px;
   background: #ffdede;
   border-radius: 2px;
 }
 .message {
-  height: 40px;
+  height: 70px;
 }
 span {
   color: #aaaaaa;
 }
 .boldtext {
   font-weight: bold;
+}
+textarea {
+  display: flex;
+  border: none;
+  width: 90%;
+  border: none;
+  overflow: auto;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+
+  resize: none;
 }

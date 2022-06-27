@@ -26,6 +26,7 @@ function stillThere() {
 }
 // atualiza a cada 5s
 setInterval(stillThere, 5000);
+setInterval(whosTalking, 3000);
 
 function taOff(error) {
   alert("Nome ja esta em uso, ecolha outro");
@@ -49,16 +50,15 @@ function receiveMessage(receive) {
   for (let i = 0; i < receive.data.length; i++) {
     if (receive.data[i].type === "message") {
       messageOrganize.innerHTML += `<div class="message"><span>
-      (${receive.data[i].time})</span><b class ="boldtext">${receive.data[i].from}</b> para <b class ="boldtext">${receive.data[i].text}</b>:</div>`;
+      (${receive.data[i].time})</span><b class ="boldtext">${receive.data[i].from}</b> para <b class ="boldtext">${receive.data[i].to}</b>:<b>${receive.data[i].text}</b></div>`;
     } else if (receive.data[i].type === "status") {
       messageOrganize.innerHTML += `<div class="status"><span>
       (${receive.data[i].time})</span><b class ="boldtext">${receive.data[i].from}</b> ${receive.data[i].text}</div>`;
     }
     if (receive.data[i].type === "private_message") {
       messageOrganize.innerHTML += `<div class="privateMessage"><span>
-      (${receive.data[i].time})</span><b class ="boldtext">${receive.data[i].from}</b> reservadamente para <b class ="boldtext">${receive.data[i].text}</b>:</div>`;
+      (${receive.data[i].time})</span><b class ="boldtext">${receive.data[i].from}</b> reservadamente para <b class ="boldtext">${receive.data[i].to}</b>:<b>${receive.data[i].text}</b>:</div>`;
     }
-    messageOrganize.scrollIntoView();
   }
 }
 
@@ -67,4 +67,22 @@ function errorReceiving(error) {
   if (statusCode === 400) {
     console.log("Não foi possível fazer o load da pagina");
   }
+}
+function contact() {
+  let messageStructure = {
+    from: userName,
+    to: "todos",
+    text: document.querySelector("textarea").value,
+    type: "message",
+  };
+  const sendMessages = axios.post(
+    "https://mock-api.driven.com.br/api/v6/uol/messages",
+    messageStructure
+  );
+  document.querySelector("textarea").value = "";
+  sendMessages.catch(errorSending);
+}
+
+function errorSending() {
+  console.log("nao foi");
 }
