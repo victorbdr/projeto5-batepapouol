@@ -24,7 +24,7 @@ function stillThere() {
   );
   status.catch(taOff);
 }
-// atualiza a cada 5s
+//atualiza a cada 5s
 setInterval(stillThere, 5000);
 setInterval(whosTalking, 3000);
 
@@ -50,16 +50,17 @@ function receiveMessage(receive) {
   for (let i = 0; i < receive.data.length; i++) {
     if (receive.data[i].type === "message") {
       messageOrganize.innerHTML += `<div class="message"><span>
-      (${receive.data[i].time})</span><b class ="boldtext">${receive.data[i].from}</b> para <b class ="boldtext">${receive.data[i].to}</b>:<b>${receive.data[i].text}</b></div>`;
+      (${receive.data[i].time})</span><b class ="boldtext"> ${receive.data[i].from}</b> para <b class ="boldtext"> ${receive.data[i].to}</b> : <b> ${receive.data[i].text}</b></div>`;
     } else if (receive.data[i].type === "status") {
       messageOrganize.innerHTML += `<div class="status"><span>
-      (${receive.data[i].time})</span><b class ="boldtext">${receive.data[i].from}</b> ${receive.data[i].text}</div>`;
+      (${receive.data[i].time})</span><b class ="boldtext"> ${receive.data[i].from}</b> ${receive.data[i].text}</div>`;
     }
     if (receive.data[i].type === "private_message") {
       messageOrganize.innerHTML += `<div class="privateMessage"><span>
-      (${receive.data[i].time})</span><b class ="boldtext">${receive.data[i].from}</b> reservadamente para <b class ="boldtext">${receive.data[i].to}</b>:<b>${receive.data[i].text}</b>:</div>`;
+      (${receive.data[i].time})</span><b class ="boldtext"> ${receive.data[i].from} </b> reservadamente para <b class ="boldtext"> ${receive.data[i].to}</b>:<b> ${receive.data[i].text}</b></div>`;
     }
   }
+  messageOrganize.scrollIntoView(false);
 }
 
 function errorReceiving(error) {
@@ -84,5 +85,6 @@ function contact() {
 }
 
 function errorSending() {
+  window.location.reload();
   console.log("nao foi");
 }
