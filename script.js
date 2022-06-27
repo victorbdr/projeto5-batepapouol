@@ -1,5 +1,5 @@
 let userName = prompt("qual seu nome?");
-let mensagens = [];
+let messages = [];
 //Entrar no chat
 function enterChat() {
   const promise = axios.post(
@@ -20,9 +20,7 @@ function unable(error) {
 function stillThere() {
   const status = axios.post(
     "https://mock-api.driven.com.br/api/v6/uol/status",
-    {
-      name: userName,
-    }
+    { name: userName }
   );
   status.catch(taOff);
 }
@@ -37,60 +35,36 @@ function taOff(error) {
 }
 // puxar mensagens da api
 function whosTalking() {
-  const messages = axios.get(
-    "https://mock-api.driven.com.br/api/v6/uol/messages",
-    [
-      {
-        from: userName,
-        to: "Todos",
-        text: "entra na sala...",
-        type: "status",
-        time: "08:01:17",
-      },
-      {
-        from: userName,
-        to: "Todos",
-        text: "Bom dia",
-        type: "message",
-        time: "08:02:50",
-      },
-    ]
+  const showMessages = axios.get(
+    "https://mock-api.driven.com.br/api/v6/uol/messages"
   );
-  promise.then(receiveMessage);
-  promisse.catch(errorReceiving);
+  showMessages.then(receiveMessage);
+  showMessages.catch(errorReceiving);
 }
-// se tiver OK mandar mensagens para o chat
-function receiveMessage(receiver) {
-  let organizeMessages = document.querySelector(".chatuol");
-  organizeMessages.innerHTML = "";
-  for (let i = 0; i < receiver.length; i++) {
-    if (receiver.type === "status") {
-      organizeMessages.innerHTML += `<div class = "status"> <p>${userName} esta online</p>
-      </div>
-      `;
+whosTalking();
+
+function receiveMessage(receive) {
+  let messageOrganize = document.querySelector(".chatuol");
+  messageOrganize.innerHTML = "";
+  for (let i = 0; i < receive.data.length; i++) {
+    if (receive.data[i].type === "message") {
+      messageOrganize.innerHTML += `<div class="message"><span>
+      (${receive.data[i].time})</span><b class ="boldtext">${receive.data[i].from}</b> para <b class ="boldtext">${receive.data[i].text}</b>:</div>`;
+    } else if (receive.data[i].type === "status") {
+      messageOrganize.innerHTML += `<div class="status"><span>
+      (${receive.data[i].time})</span><b class ="boldtext">${receive.data[i].from}</b> ${receive.data[i].text}</div>`;
     }
+    if (receive.data[i].type === "private_message") {
+      messageOrganize.innerHTML += `<div class="privateMessage"><span>
+      (${receive.data[i].time})</span><b class ="boldtext">${receive.data[i].from}</b> reservadamente para <b class ="boldtext">${receive.data[i].text}</b>:</div>`;
+    }
+    messageOrganize.scrollIntoView();
   }
 }
-receiveMessage();
+
 function errorReceiving(error) {
   let statusCode = error.response.status;
   if (statusCode === 400) {
     console.log("Não foi possível fazer o load da pagina");
   }
 }
-//function contact() {
-// const sendMessages = axios.post(
-//  "https://mock-api.driven.com.br/api/v6/uol/messages",
-//  {
-//    from: "nome do usuário",
-//    to: "nome do destinatário (Todos se não for um específico)",
-//  text: "mensagem digitada",
-// type: "message",
-// }
-// );
-//  promise.then(sentMessage);
-// promisse.catch(errorSending);
-//}
-//function sentMessage() {
-//setInterval(receiveMessage, 3000);
-//}

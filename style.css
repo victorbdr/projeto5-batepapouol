@@ -1,3 +1,6 @@
+body {
+  width: 600px;
+}
 ion-icon {
   font-size: 42px;
 }
@@ -11,18 +14,45 @@ header {
   height: 80px;
   background: #ffffff;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: 26px;
 }
 .chatuol {
+  display: flex;
   height: 507px;
+  flex-direction: column;
+  gap: 4px;
 }
 footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
   background: #ffffff;
   box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.05);
   width: 100%;
   height: 80px;
+  z-index: 1;
 }
 .sendmessage {
   justify-content: space-between;
   display: flex;
   padding: 20px 20px;
+}
+.status {
+  height: 40px;
+  background: #dcdcdc;
+  border-radius: 2px;
+}
+.privateMessage {
+  height: 40px;
+  background: #ffdede;
+  border-radius: 2px;
+}
+.message {
+  height: 40px;
+}
+span {
+  color: #aaaaaa;
+}
+.boldtext {
+  font-weight: bold;
 }
